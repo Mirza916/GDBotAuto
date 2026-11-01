@@ -49,3 +49,28 @@ jobs:
         with:
           name: GDAutoBot-exe
           path: build-win/Release/GDAutoBot.exe
+
+  release:
+    # Puts the newest APK + EXE on the repo's Releases page (tag "latest"),
+    # so they can be downloaded directly on the phone.
+    needs: [apk, exe]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: art
+      - name: Publish "latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp art/GDAutoBot-apk/release/app-release.apk GDAutoBot.apk
+          cp art/GDAutoBot-exe/GDAutoBot.exe GDAutoBot.exe
+          sha256sum GDAutoBot.apk GDAutoBot.exe > SHA256SUMS.txt
+          gh release delete latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
+          gh release create latest GDAutoBot.apk GDAutoBot.exe SHA256SUMS.txt \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "GD AutoBot — son derleme" \
+            --notes "Otomatik derleme: ${GITHUB_SHA::7}. APK Android 10+ (debug anahtarıyla imzalı), EXE Windows 10/11 x64."
