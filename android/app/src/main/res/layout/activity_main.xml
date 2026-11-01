@@ -155,6 +155,22 @@
                 <Button android:id="@+id/btnExport" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
                     android:layout_height="wrap_content" android:text="Macro dışa aktar" />
             </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+                android:text="…veya dosya yolu yaz (klasör de olur, o zaman level_ID.gdbm kullanılır)" style="@style/Label" />
+            <EditText android:id="@+id/editPath" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:inputType="textUri" android:singleLine="true" android:textSize="13sp"
+                android:hint="/sdcard/Download/level_128.gdbm" android:textColorHint="@color/muted"
+                android:textColor="@color/yellow" android:backgroundTint="@color/purple" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnPathImport" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:text="Yoldan içe aktar" />
+                <Button android:id="@+id/btnPathExport" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Yola dışa aktar" />
+            </LinearLayout>
+            <Button android:id="@+id/btnAllFiles" style="@style/Btn" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" android:text="Dosya yolu için depolama izni ver" />
+            <TextView android:id="@+id/txtAllFiles" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Label"
+                android:text="Uygulamanın kendi klasörü izin istemez: /sdcard/Android/data/com.mirza.gdautobot/files/macros/. Download gibi diğer klasörler için Android 11+ 'Tüm dosyalara erişim' izni gerekir." />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" style="@style/Label"
                 android:text="Kayıt: paneldeki ● KAYIT → kayıt pedine dokunarak oyna. Ped dokunuşları kaydeder ve oyuna aynen iletir. Kalibrasyon: panelde ⌖ → artıyı oyuncunun üstüne sürükle → Oyuncu." />
         </LinearLayout>

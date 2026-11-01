@@ -9,6 +9,7 @@ import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 /** Setup screen: permissions (explained), status, settings, profiles, macro import/export. */
 public class MainActivity extends Activity {
-    private static final int REQ_CAPTURE = 1, REQ_IMPORT = 2, REQ_EXPORT = 3, REQ_NOTIF = 4;
+    private static final int REQ_CAPTURE = 1, REQ_IMPORT = 2, REQ_EXPORT = 3, REQ_NOTIF = 4, REQ_STORAGE = 5;
     private static final String GD_PACKAGE = "com.robtopx.geometryjump";
 
     private final Handler ui = new Handler(Looper.getMainLooper());
@@ -74,6 +75,12 @@ public class MainActivity extends Activity {
 
         EditText lvl = findViewById(R.id.editLevel);
         lvl.setText(String.valueOf(ConfigStore.levelId(this)));
+        EditText path = findViewById(R.id.editPath);
+        path.setText(getSharedPreferences("gdautobot", MODE_PRIVATE).getString("lastPath",
+                new File(getExternalFilesDir(null), "macros").getAbsolutePath()));
+        on(R.id.btnPathImport, this::importFromPath);
+        on(R.id.btnPathExport, this::exportToPath);
+        on(R.id.btnAllFiles, this::requestStorage);
         on(R.id.btnLoadProfile, this::loadProfile);
         on(R.id.btnSaveProfile, this::saveProfile);
         on(R.id.btnImport, () -> {
@@ -148,19 +155,12 @@ public class MainActivity extends Activity {
             toast("Bot başlatıldı. Geometry Dash'i aç; panel oyunun üstünde.");
         } else if (req == REQ_IMPORT && res == RESULT_OK && data != null) {
             try (InputStream in = getContentResolver().openInputStream(data.getData())) {
-                String text = ConfigStore.readAll(in);
-                File f = ConfigStore.macroFile(this, levelId());
-                ConfigStore.writeFile(f, text);
-                BotService s = BotService.instance;
-                String err = s != null ? s.loadMacroText(text) : "";
-                toast(err.isEmpty() ? "Macro içe aktarıldı → Level " + levelId() : "Macro hatalı: " + err);
+                importText(ConfigStore.readAll(in));
             } catch (Exception e) {
                 toast("Okunamadı: " + e.getMessage());
             }
         } else if (req == REQ_EXPORT && res == RESULT_OK && data != null) {
-            BotService s = BotService.instance;
-            String text = s != null ? s.currentMacroText() : "";
-            if (text.isEmpty()) text = ConfigStore.readFile(ConfigStore.macroFile(this, levelId()));
+            String text = currentMacro();
             if (text == null || text.isEmpty()) { toast("Dışa aktarılacak macro yok"); return; }
             try (OutputStream out = getContentResolver().openOutputStream(data.getData())) {
                 out.write(text.getBytes(StandardCharsets.UTF_8));
@@ -169,6 +169,88 @@ public class MainActivity extends Activity {
                 toast("Yazılamadı: " + e.getMessage());
             }
         }
+    }
+
+    private void importText(String text) {
+        if (text == null || !text.startsWith("GDBOTMACRO 1")) { toast("Bu bir GD AutoBot macro dosyası değil (.gdbm)"); return; }
+        File f = ConfigStore.macroFile(this, levelId());
+        BotService s = BotService.instance;
+        String err = s != null ? s.loadMacroText(text) : "";
+        if (!err.isEmpty()) { toast("Macro hatalı: " + err); return; }
+        ConfigStore.writeFile(f, text);
+        toast("Macro içe aktarıldı → Level " + levelId());
+    }
+
+    private String currentMacro() {
+        BotService s = BotService.instance;
+        String text = s != null ? s.currentMacroText() : "";
+        if (text == null || text.isEmpty()) text = ConfigStore.readFile(ConfigStore.macroFile(this, levelId()));
+        return text;
+    }
+
+    // ---------------- typed file path ----------------
+    private File typedPath() {
+        String p = ((EditText) findViewById(R.id.editPath)).getText().toString().trim();
+        if (p.isEmpty()) return null;
+        if (p.startsWith("~/")) p = Environment.getExternalStorageDirectory().getAbsolutePath() + p.substring(1);
+        getSharedPreferences("gdautobot", MODE_PRIVATE).edit().putString("lastPath", p).apply();
+        File f = new File(p);
+        // a folder (or a path without extension) => level_<id>.gdbm inside it
+        if (f.isDirectory() || (!p.endsWith(".gdbm") && !p.contains(".")))
+            f = new File(f, "level_" + levelId() + ".gdbm");
+        return f;
+    }
+
+    private boolean isOwnDir(File f) {
+        File own = getExternalFilesDir(null);
+        return own != null && f.getAbsolutePath().startsWith(own.getAbsolutePath())
+                || f.getAbsolutePath().startsWith(getFilesDir().getAbsolutePath());
+    }
+
+    private boolean storageOk() {
+        if (Build.VERSION.SDK_INT >= 30) return Environment.isExternalStorageManager();
+        return checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestStorage() {
+        if (storageOk()) { toast("Depolama izni zaten açık"); return; }
+        if (Build.VERSION.SDK_INT >= 30) {
+            try {
+                startActivity(new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                        Uri.parse("package:" + getPackageName())));
+            } catch (Exception e) {
+                startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
+            }
+        } else {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_STORAGE);
+        }
+    }
+
+    private void pathError(File f, String what) {
+        if (!isOwnDir(f) && !storageOk())
+            toast(what + ": izin yok → 'Dosya yolu için depolama izni ver' (" + f.getAbsolutePath() + ")");
+        else toast(what + ": " + f.getAbsolutePath());
+    }
+
+    private void importFromPath() {
+        File f = typedPath();
+        if (f == null) { toast("Dosya yolu boş"); return; }
+        if (!f.exists() && (isOwnDir(f) || storageOk())) { toast("Dosya yok: " + f.getAbsolutePath()); return; }
+        String text = ConfigStore.readFile(f);
+        if (text == null) { pathError(f, "Okunamadı"); return; }
+        importText(text);
+    }
+
+    private void exportToPath() {
+        File f = typedPath();
+        if (f == null) { toast("Dosya yolu boş"); return; }
+        String text = currentMacro();
+        if (text == null || text.isEmpty()) { toast("Dışa aktarılacak macro yok"); return; }
+        File dir = f.getParentFile();
+        if (dir != null) dir.mkdirs();
+        if (ConfigStore.writeFile(f, text)) toast("Macro yazıldı: " + f.getAbsolutePath());
+        else pathError(f, "Yazılamadı");
     }
 
     // ---------------- settings ----------------
@@ -243,6 +325,7 @@ public class MainActivity extends Activity {
         boolean running = BotService.running();
         setPerm(R.id.txtCaptureState, running);
         ((Button) findViewById(R.id.btnStart)).setText(running ? "BOTU DURDUR" : "BOTU BAŞLAT (ekran yakalama)");
+        findViewById(R.id.btnAllFiles).setVisibility(storageOk() ? View.GONE : View.VISIBLE);
         findViewById(R.id.btnRestricted).setVisibility(Build.VERSION.SDK_INT >= 33 && !accessibilityOk() ? View.VISIBLE : View.GONE);
 
         Map<String, String> s = running ? ConfigStore.parse(BotService.instance.statusText()) : null;
