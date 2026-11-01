@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- header -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="GD AutoBot" android:textColor="@color/text" android:textSize="28sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="14dp"
+            android:text="Geometry Dash 2.209 · Android · v0.1.0 · bot kullanımı her zaman görünür" style="@style/Label" />
+
+        <!-- main status -->
+        <LinearLayout style="@style/Card" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AUTO PLAY" style="@style/Label" />
+            <Button android:id="@+id/btnAutoPlay" style="@style/Btn" android:layout_width="match_parent" android:layout_height="56dp"
+                android:layout_marginTop="4dp" android:text="OFF" android:textSize="22sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+                android:text="BOT MODE" style="@style/Label" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnModeSmart" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:text="SMART" />
+                <Button android:id="@+id/btnModeMacro" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="MACRO" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GAME VERSION" style="@style/Label" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2.209" style="@style/Value" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PLATFORM" style="@style/Label" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ANDROID" style="@style/Value" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="STATUS" style="@style/Label" />
+                    <TextView android:id="@+id/txtStatus" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="STOPPED" android:textColor="@color/yellow" android:textSize="16sp" android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:id="@+id/txtStatusLine" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:text="Servis kapalı" style="@style/Label" />
+            <TextView android:id="@+id/txtMacro" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="2dp" android:text="—" style="@style/Label" />
+        </LinearLayout>
+
+        <!-- permissions -->
+        <LinearLayout style="@style/Card" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="İzinler (hepsi senin onayınla, root yok)"
+                style="@style/Value" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:text="1. Diğer uygulamaların üstünde göster" style="@style/Body" />
+                <TextView android:id="@+id/txtOverlayState" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Body" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Label"
+                android:text="Kontrol paneli ve kayıt pedi Geometry Dash'in üstünde görünsün diye." />
+            <Button android:id="@+id/btnPermOverlay" style="@style/Btn" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="Üstte gösterme ayarını aç" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:text="2. Erişilebilirlik hizmeti (dokunma)" style="@style/Body" />
+                <TextView android:id="@+id/txtAccessState" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Body" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Label"
+                android:text="Bot, Android'in resmi hareket (gesture) API'si ile dokunur. Ekran içeriğini bu hizmetle okumaz. Ayarlar → Erişilebilirlik → Yüklü uygulamalar → GD AutoBot → Aç." />
+            <Button android:id="@+id/btnPermAccess" style="@style/Btn" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="Erişilebilirlik ayarlarını aç" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Label" android:layout_marginTop="4dp"
+                android:text="Android 13+: APK'yı dışarıdan yüklediysen hizmet gri görünebilir. Uygulama bilgisi → ⋮ → 'Kısıtlanmış ayarlara izin ver', sonra tekrar dene." />
+            <Button android:id="@+id/btnRestricted" style="@style/Btn" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="Uygulama bilgisini aç" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:text="3. Ekran yakalama (MediaProjection)" style="@style/Body" />
+                <TextView android:id="@+id/txtCaptureState" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Body" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Label"
+                android:text="Smart Auto Play ve attempt senkronu için ekran görüntüsü cihazda analiz edilir, hiçbir yere gönderilmez. Android her başlatmada onay ister; durum çubuğunda kayıt simgesi görünür." />
+            <Button android:id="@+id/btnStart" style="@style/Btn" android:layout_width="match_parent" android:layout_height="52dp"
+                android:layout_marginTop="6dp" android:background="@drawable/btn_purple" android:text="BOTU BAŞLAT (ekran yakalama)" />
+            <Button android:id="@+id/btnOpenGd" style="@style/Btn" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" android:text="Geometry Dash'i aç" />
+        </LinearLayout>
+
+        <!-- settings -->
+        <LinearLayout style="@style/Card" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ayarlar" style="@style/Value" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"
+                android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Input Delay (Smart)" style="@style/Body" />
+                <Button android:id="@+id/btnDelayM" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="−" />
+                <TextView android:id="@+id/txtDelay" android:layout_width="72dp" android:layout_height="wrap_content" android:gravity="center" style="@style/Value" />
+                <Button android:id="@+id/btnDelayP" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Timing Offset (Macro)" style="@style/Body" />
+                <Button android:id="@+id/btnOffsetM" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="−" />
+                <TextView android:id="@+id/txtOffset" android:layout_width="72dp" android:layout_height="wrap_content" android:gravity="center" style="@style/Value" />
+                <Button android:id="@+id/btnOffsetP" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Dokunma süresi" style="@style/Body" />
+                <Button android:id="@+id/btnTapM" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="−" />
+                <TextView android:id="@+id/txtTap" android:layout_width="72dp" android:layout_height="wrap_content" android:gravity="center" style="@style/Value" />
+                <Button android:id="@+id/btnTapP" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Checkpoint aralığı" style="@style/Body" />
+                <Button android:id="@+id/btnCpM" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="−" />
+                <TextView android:id="@+id/txtCp" android:layout_width="72dp" android:layout_height="wrap_content" android:gravity="center" style="@style/Value" />
+                <Button android:id="@+id/btnCpP" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+" />
+            </LinearLayout>
+
+            <Switch android:id="@+id/swPractice" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"
+                android:text="Practice Assist (otomatik checkpoint)" style="@style/Body" />
+            <Switch android:id="@+id/swRetry" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+                android:text="Auto Retry" style="@style/Body" />
+            <Switch android:id="@+id/swBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+                android:text="İlerleme çubuğu ile attempt senkronu" style="@style/Body" />
+            <Switch android:id="@+id/swTakeover" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+                android:text="Pede dokununca manuele geç" style="@style/Body" />
+        </LinearLayout>
+
+        <!-- profiles + macros -->
+        <LinearLayout style="@style/Card" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Level profili ve macro" style="@style/Value" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"
+                android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Level ID  " style="@style/Body" />
+                <EditText android:id="@+id/editLevel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:inputType="number" android:textColor="@color/yellow" android:backgroundTint="@color/purple" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnLoadProfile" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:text="Profili yükle" />
+                <Button android:id="@+id/btnSaveProfile" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Profili kaydet" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:orientation="horizontal">
+                <Button android:id="@+id/btnImport" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:text="Macro içe aktar" />
+                <Button android:id="@+id/btnExport" style="@style/Btn" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Macro dışa aktar" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" style="@style/Label"
+                android:text="Kayıt: paneldeki ● KAYIT → kayıt pedine dokunarak oyna. Ped dokunuşları kaydeder ve oyuna aynen iletir. Kalibrasyon: panelde ⌖ → artıyı oyuncunun üstüne sürükle → Oyuncu." />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

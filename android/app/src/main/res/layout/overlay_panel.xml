@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Floating control panel shown over Geometry Dash. Drag it by the top bar. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/panel_bg"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:id="@+id/panelHandle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp">
+        <TextView
+            android:id="@+id/txtBadge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="BOT · READY"
+            android:textColor="@color/yellow"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <Button android:id="@+id/btnCollapse" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" />
+        <Button android:id="@+id/btnClose" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✕" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+        <Button android:id="@+id/btnAuto" style="@style/PanelBtn" android:layout_width="130dp" android:layout_height="wrap_content" android:text="AUTO PLAY: OFF" />
+        <Button android:id="@+id/btnSmart" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SMART" />
+        <Button android:id="@+id/btnMacro" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MACRO" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+        <Button android:id="@+id/btnRec" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="● KAYIT" />
+        <Button android:id="@+id/btnSync" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SYNC" />
+        <Button android:id="@+id/btnPause" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="❚❚" />
+        <Button android:id="@+id/btnStop" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/btn_red" android:text="■ DUR" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+        <Button android:id="@+id/btnMode" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cube" />
+        <Button android:id="@+id/btnSpeed" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1x" />
+        <Button android:id="@+id/btnGravity" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⇅" />
+        <Button android:id="@+id/btnPad" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PED" />
+        <Button android:id="@+id/btnCalib" style="@style/PanelBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⌖" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:text="STATUS: READY"
+        android:textColor="@color/muted"
+        android:textSize="11sp" />
+</LinearLayout>

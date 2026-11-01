@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GD AutoBot</string>
+    <string name="accessibility_description">GD AutoBot, Auto Play ve Macro Replay açıkken Geometry Dash\'e dokunma hareketleri göndermek için bu hizmeti kullanır. Ekrandaki içeriği okumaz, hiçbir veri toplamaz veya göndermez. Sadece sen botu açtığında çalışır.</string>
+</resources>

@@ -1,0 +1,8 @@
+build/
+build-win/
+android/.gradle/
+android/app/build/
+android/app/.cxx/
+android/local.properties
+*.pdb
+dist/
